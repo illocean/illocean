@@ -1,5 +1,5 @@
 ﻿<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=120&section=header&text=illocean&fontSize=28" width="100%" alt="Wave header with illocean handle" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=120&section=header&text=&fontSize=0" width="100%" />
 </div>
 
 <br>
@@ -11,14 +11,7 @@
 <br>
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/illocean/gif-terminal/main/output.gif" alt="Terminal GIF" width="100%" />
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=illocean&show_icons=true&theme=dark" alt="GitHub stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=illocean&layout=compact&theme=dark" alt="Top languages" />
+  <img src="https://raw.githubusercontent.com/illocean/gif-terminal/main/output.gif" alt="Terminal GIF" style="max-width: 100%; border-radius: 10px;" />
 </div>
 
 <br>
@@ -64,5 +57,5 @@
 <br>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=120&section=footer" width="100%" alt="Wave footer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=120&section=footer" width="100%" />
 </div>
