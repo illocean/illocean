@@ -1,8 +1,8 @@
 <img src="https://raw.githubusercontent.com/illocean/illocean/main/assets/header.svg" width="100%" alt="illocean — IT student, PUP Taguig · full-stack developer in training">
 
 <p align="center">
-  <a href="https:///github.com/illocean/illocean/blob/output/assets/snake.svg">
-    <img src="https://raw.githubusercontent.com/illocean/illocean/output/assets/snake.svg" width="720" alt="Animated contribution graph snake — refreshed daily">
+  <a href="https://github.com/illocean/illocean/blob/output/snake.svg">
+    <img src="https://raw.githubusercontent.com/illocean/illocean/output/snake.svg" width="720" alt="Animated contribution graph snake — refreshed daily">
   </a>
 </p>
 
@@ -48,9 +48,6 @@
 ---
 
 <p align="center">
-  <a href="https://leetcode.com/illocean">
-    <img src="https://img.shields.io/leetcode/illocean?label=leetcode&labelColor=0d1117&style=flat&logo=leetcode&logoColor=white" alt="LeetCode stats">
-  </a>
   <img src="https://img.shields.io/badge/-open%20to%20work-b31baf?style=flat&labelColor=0d1117&logoColor=white" alt="Open to work">
 </p>
 
