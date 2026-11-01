@@ -1,0 +1,100 @@
+name: Generate Terminal GIF
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily at 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: 'Theme to use (default | macos | debian)'
+        required: false
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-gif-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate-gif:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Guard manual branch
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' }}
+        run: |
+          echo "Manual runs are restricted to main (got $GITHUB_REF)." >&2
+          exit 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        run: python -m pip install --require-hashes --requirement requirements.txt
+
+      - name: Reset generated artifacts
+        run: |
+          rm -f -- output.gif
+          rm -rf -- frames
+
+      - name: Generate GIF
+        env:
+          # Account-wide read scope: github.token is repo-scoped and reads as
+          # anonymous on /search/*, which undercounts commits/PRs and hides
+          # private repos. ponytail: falls back to public-only stats if unset.
+          GITHUB_TOKEN: ${{ secrets.STATS_TOKEN || github.token }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          THEME: ${{ inputs.theme || vars.THEME || 'default' }}
+        run: |
+          echo "Theme: $THEME  |  User: $GITHUB_REPOSITORY_OWNER"
+          case "$THEME" in
+            default) python generate_with_stats.py ;;
+            macos)   python generate_liquid_glass.py ;;
+            debian)  python generate_debian.py ;;
+            *)       echo "Error: THEME must be default, macos, or debian (got '$THEME')" >&2; exit 2 ;;
+          esac
+
+      - name: Validate GIF
+        run: python scripts/validate_gif.py output.gif
+
+      - name: Commit and push if changed
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -- output.gif
+
+          if git diff --cached --quiet -- output.gif; then
+            echo 'No publication: output.gif is unchanged.'
+            exit 0
+          fi
+
+          bytes=$(wc -c < output.gif)
+          sha256=$(sha256sum output.gif | cut -d ' ' -f 1)
+          git commit -m 'Update terminal GIF [skip ci]'
+          if ! git push origin HEAD:main; then
+            echo 'Publication failed: the generated GIF commit was not pushed.' >&2
+            exit 1
+          fi
+          commit_sha=$(git rev-parse HEAD)
+          {
+            echo '### GIF publication'
+            echo "- Commit: \`$commit_sha\`"
+            echo "- Bytes: \`$bytes\`"
+            echo "- SHA-256: \`$sha256\`"
+          } >> "$GITHUB_STEP_SUMMARY"
