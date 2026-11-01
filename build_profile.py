@@ -59,8 +59,8 @@ def swell(y: float, amp: float, dur: float, opacity: float,
     d1 = contour(y, amp, 1.15)
     offset = f' begin="{delay:.1f}s"' if delay else ""
     return (
-        f'<path d="{d0}" fill="none" stroke="{stroke}" stroke-width="{weight}" '
-        f'opacity="{opacity}"><animate attributeName="d" dur="{dur:.1f}s" '
+        f'<path d="{d0}" fill="none" stroke="{stroke}" stroke-width="{weight:.3g}" '
+        f'opacity="{opacity:.3g}"><animate attributeName="d" dur="{dur:.1f}s" '
         f'repeatCount="indefinite" values="{d0};{d1};{d0}"{offset}/></path>'
     )
 
@@ -222,11 +222,11 @@ def stack_svg() -> str:
         svg_open(STACK_W, STACK_H, "illocean's toolset, drawn as a tide chart"),
         f'<rect width="{STACK_W}" height="{STACK_H}" fill="{INK}"/>',
         # the sea rising from the left: a slow gradient wash, not a card
-        f'<rect x="0" y="0" width="{STACK_W}" height="{STACK_H}" fill="url(#sea-fade)"/>'
         f'<defs><linearGradient id="sea-fade" x1="0" y1="0" x2="1" y2="1">'
         f'<stop offset="0" stop-color="{MID}" stop-opacity="0.55"/>'
         f'<stop offset="0.6" stop-color="{INK}" stop-opacity="0"/>'
-        f"</linearGradient></defs>",
+        f"</linearGradient></defs>"
+        f'<rect x="0" y="0" width="{STACK_W}" height="{STACK_H}" fill="url(#sea-fade)"/>',
         caps("TIDE CHART", 92, 54, anchor="start", opacity=0.55),
         caps("declared, not ranked", STACK_W - 92, 54, anchor="end", opacity=0.4),
     ]
@@ -283,12 +283,6 @@ def marquee_svg() -> str:
     return (
         svg_open(MARQ_W, MARQ_H, "projects in progress: " + ", ".join(PROJECTS))
         + f'<rect width="{MARQ_W}" height="{MARQ_H}" fill="{INK}"/>'
-        + f'<g clip-path="url(#band)" font-family="{MONO}" font-size="15" '
-        f'letter-spacing="3" fill="{MIST}" opacity="0.85">'
-        + f'<animateTransform attributeName="transform" type="translate" '
-        f'from="0 0" to="-260 0" dur="40s" repeatCount="indefinite"/>'
-        + row
-        + "</g>"
         + f'<defs><clipPath id="band"><rect x="0" y="0" width="{MARQ_W}" '
         f'height="{MARQ_H}"/></clipPath>'
         f'<linearGradient id="lf" x1="0" y1="0" x2="1" y2="0">'
@@ -297,6 +291,12 @@ def marquee_svg() -> str:
         f'<linearGradient id="rf" x1="0" y1="0" x2="1" y2="0">'
         f'<stop offset="0" stop-color="{INK}" stop-opacity="0"/>'
         f'<stop offset="1" stop-color="{INK}"/></linearGradient></defs>'
+        + f'<g clip-path="url(#band)" font-family="{MONO}" font-size="15" '
+        f'letter-spacing="3" fill="{MIST}" opacity="0.85">'
+        + f'<animateTransform attributeName="transform" type="translate" '
+        f'from="0 0" to="-260 0" dur="40s" repeatCount="indefinite"/>'
+        + row
+        + "</g>"
         + f'<rect x="0" y="0" width="175" height="{MARQ_H}" fill="url(#lf)"/>'
         + f'<rect x="{MARQ_W - 175}" y="0" width="175" height="{MARQ_H}" '
         f'fill="url(#rf)"/>'
