@@ -5,12 +5,6 @@
 <br>
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=500&color=8BE9FD&center=true&vCenter=true&width=500&lines=IT+Student+%40+PUP+-+Taguig;Full-stack+developer+in+training;Large+Language+Models;i+miss+you" alt="Typing SVG" />
-</div>
-
-<br>
-
-<div align="center">
   <img src="https://raw.githubusercontent.com/illocean/gif-terminal/main/output.gif" alt="Terminal GIF" style="max-width: 100%; border-radius: 10px;" />
 </div>
 
